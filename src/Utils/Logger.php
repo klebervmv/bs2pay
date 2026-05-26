@@ -99,7 +99,7 @@ class Logger
         $entry = [
             'timestamp' => date('c'),
             'level' => $level,
-            'sdk' => 'adiq-sdk',
+            'sdk' => 'bs2pay',
             'operation' => $operation,
             'context' => $this->logSensitiveData ? $context : $this->maskSensitive($context),
         ];

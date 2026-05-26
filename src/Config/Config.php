@@ -48,7 +48,7 @@ class Config
     private $logger;
 
     /** @var string */
-    private $userAgent = 'adiq-sdk';
+    private $userAgent = 'bs2pay';
 
     /**
      * @param string $clientId     OAuth2 Client ID

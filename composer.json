@@ -1,5 +1,5 @@
 {
-    "name": "adiq/sdk-php",
+    "name": "klebervmv/bs2pay",
     "description": "SDK PHP para BS2 Pay ADIQ E-commerce - Gateway de Pagamento",
     "type": "library",
     "keywords": ["adiq", "bs2", "pagamento", "payment", "gateway", "ecommerce", "credit-card", "3ds"],
