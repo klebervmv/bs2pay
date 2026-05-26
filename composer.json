@@ -1,0 +1,28 @@
+{
+    "name": "adiq/sdk-php",
+    "description": "SDK PHP para BS2 Pay ADIQ E-commerce - Gateway de Pagamento",
+    "type": "library",
+    "keywords": ["adiq", "bs2", "pagamento", "payment", "gateway", "ecommerce", "credit-card", "3ds"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ADIQ SDK Team"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "klebervmv/easycurl": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Adiq\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

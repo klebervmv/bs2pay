@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste 3DS Challenge - ADIQ</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .section h2 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 13px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 12px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #004499;
+            line-height: 1.6;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .btn-copy {
+            background: #28a745;
+            color: white;
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+        .btn-copy:hover {
+            background: #218838;
+        }
+        .status {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .status.loading {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        .output {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .log-entry {
+            margin-bottom: 5px;
+        }
+        .log-info { color: #00d4ff; }
+        .log-success { color: #00ff00; }
+        .log-error { color: #ff6b6b; }
+        .log-warn { color: #ffaa00; }
+
+        .test-data {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+        .test-data-row {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .test-data-label {
+            font-weight: 600;
+            color: #333;
+            min-width: 120px;
+        }
+        .test-data-value {
+            color: #666;
+            word-break: break-all;
+            flex: 1;
+            margin-left: 10px;
+        }
+        .copy-btn-small {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .copy-btn-small:hover {
+            background: #5568d3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste 3DS Challenge - ADIQ</h1>
+        <p class="subtitle">Simula o fluxo completo de 3DS para capturar o validateToken real</p>
+
+        <!-- SEÇÃO 1: Dados do Teste 9 (Challenge) -->
+        <div class="section">
+            <h2>📋 Dados do Teste 9 (Challenger)</h2>
+            <div class="info-box">
+                ℹ️ Estes são os dados que o backend retorna após chamar <code>/payments/create</code> com código 3DS
+            </div>
+
+            <label>ACS URL (do response do Teste 9):</label>
+            <input type="text" id="acsUrl" placeholder="https://0merchantacsstag.cardinalcommerce.com/Merc..." value="https://0merchantacsstag.cardinalcommerce.com/MerchantACSWeb/creq.jsp">
+
+            <label>PAREQ (do response do Teste 9):</label>
+            <textarea id="pareq" rows="3" placeholder="eyJtZXNzYWdlVHlwZSI6IkNSZXEiLCJtZXNzYWdlVmVyc2lvbiI6IjIuMS4wIiwi..." style="font-family: monospace; font-size: 11px;">eyJtZXNzYWdlVHlwZSI6IkNSZXEiLCJtZXNzYWdlVmVyc2lvbiI6IjIuMi4wIiwidGhyZWVEU1NlcnZlclRyYW5zSUQiOiI2MzNjNWU2Mi05NzYyLTQyMGQtOGJjNi03N2Y2MTdmZjJiMjYiLCJhY3NUcmFuc0lEIjoiZjM4NjYyYzEtMGFjOS00YWVlLTkwMGItZjIyMWZlMjEwNDZkIiwiY2hhbGxlbmdlV2luZG93U2l6ZSI6IjAyIn0</textarea>
+
+            <label>Authentication Transaction ID (do response do Teste 9):</label>
+            <input type="text" id="authTransactionId" placeholder="14avKEtsGFBuswGj5WD0" value="1NjwjR3hVk3KqEI4l3k0">
+
+            <label>Code3DS (gerado no backend, enviado na criação):</label>
+            <input type="text" id="code3ds" placeholder="d0fb71cbcc3b88c952160df55a13349e" value="4e0fce7367586d19adf4996c5b41f361">
+        </div>
+
+        <!-- SEÇÃO 2: Cartão de Teste -->
+        <div class="section">
+            <h2>💳 Dados do Cartão de Teste</h2>
+            <div class="info-box">
+                ℹ️ Cartão: <strong>4000000000002503</strong> (VISA Challenge em homologação)
+            </div>
+
+            <label>Número do Cartão:</label>
+            <input type="text" id="cardNumber" placeholder="4000000000002503" value="4000000000002503">
+        </div>
+
+        <!-- SEÇÃO 3: Autenticação 3DS -->
+        <div class="section">
+            <h2>🔐 Passo 1: Autenticação 3DS</h2>
+            <div class="info-box">
+                ℹ️ Carrega o Cardinal (Songbird) para device fingerprinting
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="initAuth3ds()">1️⃣ Iniciar Autenticação 3DS</button>
+            </div>
+            <div id="statusAuth" class="status" style="display: none;"></div>
+        </div>
+
+        <!-- SEÇÃO 4: Challenge -->
+        <div class="section">
+            <h2>⚔️ Passo 2: Iniciar Challenge</h2>
+            <div class="info-box">
+                ℹ️ Abre o formulário de desafio do ACS (banco)
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="initChallenge()">2️⃣ Iniciar Challenge</button>
+            </div>
+            <div id="statusChallenge" class="status" style="display: none;"></div>
+        </div>
+
+        <!-- SEÇÃO 5: Resultado -->
+        <div class="section">
+            <h2>✅ Passo 3: ValidateToken Capturado</h2>
+            <div class="info-box">
+                ℹ️ Quando você completar o desafio, o validateToken aparecerá aqui
+            </div>
+
+            <label>ValidateToken:</label>
+            <textarea id="validateToken" rows="4" readonly placeholder="[Será preenchido após completar o desafio]" style="background: #f5f5f5; color: #333;"></textarea>
+
+            <div class="button-group">
+                <button class="btn-copy" onclick="copyToClipboard('validateToken')">📋 Copiar ValidateToken</button>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 6: Próximos Passos -->
+        <div class="section">
+            <h2>🚀 Próximos Passos</h2>
+            <ol style="color: #666; font-size: 13px; line-height: 1.8;">
+                <li>Preencha os dados do Teste 9 acima (acsUrl, pareq, authTransactionId)</li>
+                <li>Clique em <strong>"Iniciar Autenticação 3DS"</strong></li>
+                <li>Clique em <strong>"Iniciar Challenge"</strong></li>
+                <li>Complete o desafio que abrir no popup/modal</li>
+                <li>O <strong>validateToken</strong> aparecerá automaticamente</li>
+                <li>Copie o token e use no teste do backend:<br>
+                    <code style="background: #f0f0f0; padding: 5px; border-radius: 3px;">
+                        $validate = new AdiqPayValidate();<br>
+                        $validate->setCode3DS('d0fb71cbcc3b88c952160df55a13349e');<br>
+                        $validate->setValidateToken('[COLE_AQUI]');<br>
+                        $validate->validate();
+                    </code>
+                </li>
+            </ol>
+        </div>
+
+        <!-- SEÇÃO 7: Console de Log -->
+        <div class="section">
+            <h2>📜 Console de Log</h2>
+            <div class="output" id="console"></div>
+            <button class="btn-secondary" onclick="clearConsole()">Limpar Log</button>
+        </div>
+    </div>
+
+    <script src="http://localhost/parceladopay/public/assets/adiq-3ds-package-hml-1.0.2-min.js"></script>
+
+    <script>
+        let adiq3ds = null;
+
+        function log(message, type = 'info') {
+            const console = document.getElementById('console');
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            const timestamp = new Date().toLocaleTimeString('pt-BR');
+            entry.textContent = `[${timestamp}] ${message}`;
+            console.appendChild(entry);
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function clearConsole() {
+            document.getElementById('console').innerHTML = '';
+        }
+
+        function showStatus(elementId, message, type) {
+            const elem = document.getElementById(elementId);
+            elem.textContent = message;
+            elem.className = `status ${type}`;
+            elem.style.display = 'block';
+        }
+
+        function initAuth3ds() {
+            const cardNumber = document.getElementById('cardNumber').value;
+
+            if (!cardNumber || cardNumber.length < 6) {
+                showStatus('statusAuth', '❌ Cartão inválido', 'error');
+                log('Erro: Cartão inválido', 'error');
+                return;
+            }
+
+            try {
+                showStatus('statusAuth', '⏳ Inicializando autenticação 3DS...', 'loading');
+                log('Iniciando autenticação 3DS com cartão: ' + cardNumber.substring(0, 6) + '****', 'info');
+
+                // Cria instância do Adiq3ds com callback
+                adiq3ds = new Adiq3ds('cardNumber', validateCallback);
+
+                // Executa autenticação
+                adiq3ds.Authorization3ds();
+
+                showStatus('statusAuth', '✅ Autenticação 3DS inicializada. Clique em "Iniciar Challenge"', 'success');
+                log('Autenticação 3DS inicializada com sucesso', 'success');
+                log('code3DS: ' + adiq3ds.getThreeDsCode(), 'info');
+
+            } catch (error) {
+                showStatus('statusAuth', '❌ Erro: ' + error.message, 'error');
+                log('Erro na autenticação: ' + error.message, 'error');
+            }
+        }
+
+        function initChallenge() {
+            if (!adiq3ds) {
+                showStatus('statusChallenge', '❌ Execute "Iniciar Autenticação 3DS" primeiro', 'error');
+                log('Erro: Autenticação não inicializada', 'error');
+                return;
+            }
+
+            const acsUrl = document.getElementById('acsUrl').value;
+            const pareq = document.getElementById('pareq').value;
+            const authTransactionId = document.getElementById('authTransactionId').value;
+
+            if (!acsUrl || !pareq || !authTransactionId) {
+                showStatus('statusChallenge', '❌ Preencha todos os dados do Teste 9', 'error');
+                log('Erro: Dados do challenge incompletos', 'error');
+                return;
+            }
+
+            try {
+                showStatus('statusChallenge', '⏳ Abrindo formulário de desafio...', 'loading');
+                log('Iniciando challenge com ACS', 'info');
+                log('ACS URL: ' + acsUrl, 'info');
+                log('AuthenticationTransactionId: ' + authTransactionId, 'info');
+
+                // Inicia o challenge
+                adiq3ds.InitChallenge(acsUrl, pareq, authTransactionId);
+
+                showStatus('statusChallenge', '⏳ Formulário de desafio aberto. Complete a autenticação...', 'loading');
+                log('Desafio iniciado. Aguardando resposta do cliente...', 'warn');
+
+            } catch (error) {
+                showStatus('statusChallenge', '❌ Erro: ' + error.message, 'error');
+                log('Erro no challenge: ' + error.message, 'error');
+            }
+        }
+
+        // Callback que recebe o validateToken
+        function validateCallback(token, status) {
+            log('Challenge completado! Status: ' + status, 'success');
+            log('ValidateToken recebido (JWT)', 'success');
+
+            if (token) {
+                document.getElementById('validateToken').value = token;
+                showStatus('statusChallenge', '✅ Challenge completado com sucesso! ValidateToken capturado.', 'success');
+                log('Token: ' + token.substring(0, 50) + '...', 'success');
+            } else {
+                showStatus('statusChallenge', '❌ Token não recebido', 'error');
+                log('Erro: Token vazio', 'error');
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            if (!element.value) {
+                alert('❌ Campo vazio. Complete o desafio primeiro.');
+                return;
+            }
+
+            element.select();
+            document.execCommand('copy');
+            alert('✅ Copiado para a área de transferência!');
+            log('ValidateToken copiado para clipboard', 'success');
+        }
+
+        // Log inicial
+        window.addEventListener('load', function() {
+            log('🎯 Página carregada. Dados de teste do Teste 9 (Challenge) pré-preenchidos.', 'info');
+            log('Aguardando suas ações...', 'info');
+        });
+
+        // Captura erros globais
+        window.addEventListener('error', function(event) {
+            log('Erro: ' + event.message, 'error');
+        });
+    </script>
+</body>
+</html>
