@@ -38,7 +38,10 @@ class VaultClient
      *   brand: string,
      *   expirationMonth: string,
      *   expirationYear: string,
-     *   verifyCard?: bool
+     *   verifyCard?: bool,
+     *   platformType?: 'credit'|'debit'   // Default: 'credit'.
+     *                                     // Necessário em algumas integrações para
+     *                                     // diferenciar vault de crédito x débito.
      * }
      * @return CardDto
      * @throws ValidationException
@@ -59,12 +62,20 @@ class VaultClient
             ]);
         }
 
+        $platformType = isset($data['platformType']) && $data['platformType'] !== ''
+            ? strtolower((string) $data['platformType'])
+            : 'credit';
+        if (!in_array($platformType, ['credit', 'debit'], true)) {
+            throw new ValidationException("platformType deve ser 'credit' ou 'debit'.");
+        }
+
         $body = [
             'numberToken' => $data['numberToken'],
             'cardholderName' => $data['cardholderName'],
             'brand' => strtolower($data['brand']),
             'expirationMonth' => str_pad((string) $data['expirationMonth'], 2, '0', STR_PAD_LEFT),
             'expirationYear' => (string) $data['expirationYear'],
+            'platformType' => $platformType,
         ];
 
         if (!empty($data['securityCode'])) {

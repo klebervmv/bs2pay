@@ -4,6 +4,21 @@ Todas as mudanças relevantes deste SDK são documentadas aqui.
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 versionamento conforme [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.1.0] - 2026-05-27
+
+### Adicionado
+- `vault->store()` agora aceita `platformType` (`'credit'` | `'debit'`), com default `'credit'`. Compatível retroativamente para integrações que diferenciam vault de crédito x débito.
+
+### Alterado
+- Removida a constante `AdiqPaymentSDK::VERSION` (não utilizada — versão passou a ser gerenciada via tag git).
+- Removido o campo `"version"` hardcoded do `composer.json` (Packagist lê da tag git).
+- User-Agent default simplificado de `adiq-sdk-php/1.0.0` para `adiq-sdk`.
+- Campo `sdk` no log estruturado: `adiq-sdk-php` → `adiq-sdk`.
+
+### Organização
+- Arquivos de teste movidos para `tests/` (`tests/integration.php` e `tests/3ds-challenge.html`).
+- README atualizado com seção de execução dos testes.
+
 ## [1.0.0] - 2026-05-13
 
 ### Adicionado
