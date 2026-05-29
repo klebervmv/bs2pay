@@ -54,13 +54,13 @@ $customer = [
 
 try {
     $sdk = new AdiqPaymentSDK(
-        "your-client-id",
-        "your-client-secret",
+        getenv('ADIQ_CLIENT_ID'),
+        getenv('ADIQ_CLIENT_SECRET'),
         "homologation"
     );
 
     echo "✅ SDK inicializado com sucesso!\n";
-    echo "   Cliente ID: your-client-id\n";
+    echo "   Cliente ID: ".getenv('ADIQ_CLIENT_ID');
     echo "   Ambiente: homologation\n\n";
 
     $numberToken  = null;
