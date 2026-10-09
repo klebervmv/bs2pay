@@ -75,15 +75,19 @@ class Validator
     }
 
     /**
-     * Valida CNPJ.
+     * Valida CNPJ numérico ou alfanumérico (IN RFB 2.229/2024).
      *
-     * @param string $cnpj
-     * @return bool
+     * Aceita máscara; letras são normalizadas para maiúsculas. Formato: 12
+     * caracteres [A-Z0-9] + 2 dígitos verificadores numéricos (módulo 11, onde
+     * cada caractere vale ord($c) - 48).
+     *
+     * \param string $cnpj
+     * \return bool
      */
     public static function validateCNPJ($cnpj)
     {
-        $cnpj = Helper::onlyDigits($cnpj);
-        if (strlen($cnpj) !== 14 || preg_match('/^(\d)\1{13}$/', $cnpj)) {
+        $cnpj = Helper::onlyAlphanumeric($cnpj);
+        if (!preg_match('/^[A-Z0-9]{12}[0-9]{2}$/', $cnpj) || preg_match('/^(.)\1{13}$/', $cnpj)) {
             return false;
         }
         $weights1 = [5,4,3,2,9,8,7,6,5,4,3,2];
@@ -91,11 +95,11 @@ class Validator
         foreach ([12 => $weights1, 13 => $weights2] as $pos => $w) {
             $sum = 0;
             for ($i = 0; $i < count($w); $i++) {
-                $sum += $cnpj[$i] * $w[$i];
+                $sum += (ord($cnpj[$i]) - 48) * $w[$i];
             }
             $mod = $sum % 11;
             $digit = $mod < 2 ? 0 : 11 - $mod;
-            if ($cnpj[$pos] != $digit) {
+            if ((int) $cnpj[$pos] !== $digit) {
                 return false;
             }
         }
