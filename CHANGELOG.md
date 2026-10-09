@@ -4,6 +4,14 @@ Todas as mudanças relevantes deste SDK são documentadas aqui.
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 versionamento conforme [SemVer](https://semver.org/lang/pt-BR/).
 
+## [Unreleased]
+
+### Corrigido
+- `Validator::validateCNPJ()` agora aceita CNPJ alfanumérico (IN RFB 2.229/2024, vigente a partir de jul/2026), além do numérico. Antes, as letras eram descartadas e a venda era recusada com `customer.documentNumber (CNPJ) inválido.`.
+
+### Adicionado
+- `Helper::onlyAlphanumeric()` e teste sem rede `tests/validator-cnpj.php`.
+
 ## [1.1.0] - 2026-05-27
 
 ### Adicionado

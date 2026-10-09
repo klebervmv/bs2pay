@@ -19,6 +19,17 @@ class Helper
     }
 
     /**
+     * Remove máscara mantendo letras e dígitos, em maiúsculas (CNPJ alfanumérico).
+     *
+     * @param mixed $value
+     * @return string
+     */
+    public static function onlyAlphanumeric($value)
+    {
+        return strtoupper(preg_replace('/[^A-Za-z0-9]+/', '', (string) $value));
+    }
+
+    /**
      * Gera UUID v4 (para code3DS, idempotência, etc).
      *
      * @return string
